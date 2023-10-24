@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CarouselItems;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CarouselItemsRequest;
+use App\Models\User;
 
 class CarouselItemsController extends Controller
 {

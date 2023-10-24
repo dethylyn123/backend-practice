@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CarouselItemsController;
+// use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Api\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,3 +28,9 @@ Route::post('/carousel', [CarouselItemsController::class, 'store']);
 // when using update use put, or patch
 Route::put('/carousel/{id}', [CarouselItemsController::class, 'update']);
 Route::delete('/carousel/{id}', [CarouselItemsController::class, 'destroy']);
+
+// User API Route
+Route::get('/user', [UserController::class, 'index']);
+// when using request use post, put, or patch
+Route::post('/user', [UserController::class, 'store']);
+Route::delete('/user/{id}', [UserController::class, 'destroy']);
