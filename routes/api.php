@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CarouselItemsController;
 // use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PromptController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -34,3 +35,14 @@ Route::get('/user', [UserController::class, 'index']);
 // when using request use post, put, or patch
 Route::post('/user', [UserController::class, 'store']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
+
+
+// Prompt Route
+
+Route::get('/prompt', [PromptController::class, 'index']);
+Route::get('/prompt/{id}', [PromptController::class, 'show']);
+
+// when using request use post, put, or patch
+Route::post('/prompt', [PromptController::class, 'store']);
+// when using update use put, or patch
+Route::delete('/prompt/{id}', [PromptController::class, 'destroy']);
