@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CarouselItemsController;
 // use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PromptController;
+use App\Http\Controllers\Api\MessageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,7 +38,7 @@ Route::post('/user', [UserController::class, 'store']);
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 
-// Prompt Route
+// Prompt API
 
 Route::get('/prompt', [PromptController::class, 'index']);
 Route::get('/prompt/{id}', [PromptController::class, 'show']);
@@ -46,3 +47,10 @@ Route::get('/prompt/{id}', [PromptController::class, 'show']);
 Route::post('/prompt', [PromptController::class, 'store']);
 // when using update use put, or patch
 Route::delete('/prompt/{id}', [PromptController::class, 'destroy']);
+
+//Message API
+Route::get('/message', [MessageController::class, 'index']);
+Route::get('/message/{id}', [MessageController::class, 'show']);
+Route::post('/message', [MessageController::class, 'store']);
+Route::put('/message/{id}', [MessageController::class, 'update']);
+Route::delete('/message/{id}', [MessageController::class, 'destroy']);
