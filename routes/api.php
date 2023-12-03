@@ -34,7 +34,10 @@ Route::delete('/carousel/{id}', [CarouselItemsController::class, 'destroy']);
 // User API Route
 Route::get('/user', [UserController::class, 'index']);
 // when using request use post, put, or patch
-Route::post('/user', [UserController::class, 'store']);
+Route::post('/user', [UserController::class, 'store'])->name('user.store');
+Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+Route::put('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
+Route::put('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
 Route::delete('/user/{id}', [UserController::class, 'destroy']);
 
 
@@ -47,6 +50,9 @@ Route::get('/prompt/{id}', [PromptController::class, 'show']);
 Route::post('/prompt', [PromptController::class, 'store']);
 // when using update use put, or patch
 Route::delete('/prompt/{id}', [PromptController::class, 'destroy']);
+
+//User Selection
+Route::get('/user/selection', [UserController::class, 'selection']);
 
 //Message API
 Route::get('/message', [MessageController::class, 'index']);
