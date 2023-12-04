@@ -20,30 +20,37 @@ use App\Http\Controllers\Api\MessageController;
 */
 
 Route::post('/login', [AuthController::class, 'login'])->name('user.login');
-Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::post('/user', [UserController::class, 'store'])->name('user.store'); //user register
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/carousel', [CarouselItemsController::class, 'index']);
-Route::get('/carousel/{id}', [CarouselItemsController::class, 'show']);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-// when using request use post, put, or patch
-Route::post('/carousel', [CarouselItemsController::class, 'store']);
-// when using update use put, or patch
-Route::put('/carousel/{id}', [CarouselItemsController::class, 'update']);
-Route::delete('/carousel/{id}', [CarouselItemsController::class, 'destroy']);
+    Route::controller(CarouselItemsController::class)->group(function () {
+        Route::get('/carousel',               'index');
+        Route::get('/carousel/{id}',          'show');
 
-// User API Route
-// Route::get('/user', [UserController::class, 'index']);
-// when using request use post, put, or patch
-Route::post('/user', [UserController::class, 'store'])->name('user.store');
-Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-Route::put('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
-Route::put('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
-Route::delete('/user/{id}', [UserController::class, 'destroy']);
+        // when using request use post, put, or patch
+        Route::post('/carousel',              'store');
+        // when using update use put, or patch
+        Route::put('/carousel/{id}',          'update');
+        Route::delete('/carousel/{id}',       'destroy');
+    });
 
+    // User API Route
+    Route::get('/user', [UserController::class, 'index']);
+    // when using request use post, put, or patch
+
+    Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::put('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
+    Route::put('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
+    Route::delete('/user/{id}', [UserController::class, 'destroy']);
+});
 
 // Prompt API
 

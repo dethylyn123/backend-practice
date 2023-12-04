@@ -6,6 +6,7 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -32,10 +33,16 @@ class AuthController extends Controller
     }
 
     /**
-     * login using the specified resource.
+     * logout using the specified resource.
      */
-    public function logout()
+    public function logout(Request $request)
     {
-        return false;
+        $request->user()->tokens()->delete();
+
+        $response = [
+            'message'       => 'Logout.'
+        ];
+
+        return $response;
     }
 }
