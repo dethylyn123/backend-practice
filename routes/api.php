@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CarouselItemsController;
 // use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\MessageController;
 /*
@@ -17,6 +18,9 @@ use App\Http\Controllers\Api\MessageController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::post('/login', [AuthController::class, 'login'])->name('user.login');
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -32,7 +36,7 @@ Route::put('/carousel/{id}', [CarouselItemsController::class, 'update']);
 Route::delete('/carousel/{id}', [CarouselItemsController::class, 'destroy']);
 
 // User API Route
-Route::get('/user', [UserController::class, 'index']);
+// Route::get('/user', [UserController::class, 'index']);
 // when using request use post, put, or patch
 Route::post('/user', [UserController::class, 'store'])->name('user.store');
 Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
