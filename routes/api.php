@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\MessageController;
 |
 */
 
+//Public APIs
 Route::post('/login', [AuthController::class, 'login'])->name('user.login');
 
 Route::post('/user', [UserController::class, 'store'])->name('user.store'); //user register
@@ -46,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', [UserController::class, 'index']);
     // when using request use post, put, or patch
 
+    Route::put('/user/image/{id}', [UserController::class, 'image'])->name('user.image');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::put('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
     Route::put('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
