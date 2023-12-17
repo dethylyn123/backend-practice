@@ -7,15 +7,17 @@ use App\Models\CarouselItems;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CarouselItemsRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class CarouselItemsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return CarouselItems::all();
+        return CarouselItems::where('user_id', $request->user()->id)
+            ->get();
     }
 
     /**
@@ -27,6 +29,9 @@ class CarouselItemsController extends Controller
     {
         // Retrieve the validated input data...
         $validated = $request->validated();
+
+        // Store in carousel folder the image
+        $validated['image_path'] = $request->file('image_path')->storePublicly('carousel', 'public');
 
         $carouselItem = CarouselItems::create($validated);
 
@@ -50,7 +55,7 @@ class CarouselItemsController extends Controller
         $validated = $request->validated();
 
         $carouselItem = CarouselItems::findOrFail($id);
-        
+
         $carouselItem->update($validated);
 
         return $carouselItem;
@@ -62,6 +67,11 @@ class CarouselItemsController extends Controller
     public function destroy(string $id)
     {
         $carouselItem = CarouselItems::findOrFail($id);
+
+        if (!is_null($carouselItem->image_path)) {
+            Storage::disk('public')->delete($carouselItem->image_path);
+        }
+
         $carouselItem->delete();
 
         return $carouselItem;
