@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PromptController;
 use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,47 +30,43 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Private APIs
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    //Admin APIs
     Route::controller(CarouselItemsController::class)->group(function () {
         Route::get('/carousel',               'index');
         Route::get('/carousel/{id}',          'show');
-
-        // when using request use post, put, or patch
         Route::post('/carousel',              'store');
-        // when using update use put, or patch
         Route::put('/carousel/{id}',          'update');
         Route::delete('/carousel/{id}',       'destroy');
     });
 
-    // User API Route
     Route::get('/user', [UserController::class, 'index']);
-    // when using request use post, put, or patch
-
     Route::put('/user/image/{id}', [UserController::class, 'image'])->name('user.image');
     Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
     Route::put('/user/email/{id}', [UserController::class, 'email'])->name('user.email');
     Route::put('/user/password/{id}', [UserController::class, 'password'])->name('user.password');
     Route::delete('/user/{id}', [UserController::class, 'destroy']);
+
+    Route::get('/prompt', [PromptController::class, 'index']);
+    Route::get('/prompt/{id}', [PromptController::class, 'show']);
+    Route::post('/prompt', [PromptController::class, 'store']);
+    Route::delete('/prompt/{id}', [PromptController::class, 'destroy']);
+
+    //Message API
+    Route::get('/message', [MessageController::class, 'index']);
+    Route::get('/message/{id}', [MessageController::class, 'show']);
+    Route::post('/message', [MessageController::class, 'store']);
+    Route::put('/message/{id}', [MessageController::class, 'update']);
+    Route::delete('/message/{id}', [MessageController::class, 'destroy']);
+
+    //User Specific APIs = update of image based kong kinsa tong user nga ni log in
+    Route::get('/profile/show', [ProfileController::class, 'show']);
+    Route::put('/profile/image', [ProfileController::class, 'image'])->name('profile.image');
 });
 
-// Prompt API
-
-Route::get('/prompt', [PromptController::class, 'index']);
-Route::get('/prompt/{id}', [PromptController::class, 'show']);
-
-// when using request use post, put, or patch
-Route::post('/prompt', [PromptController::class, 'store']);
-// when using update use put, or patch
-Route::delete('/prompt/{id}', [PromptController::class, 'destroy']);
 
 //User Selection
 Route::get('/user/selection', [UserController::class, 'selection']);
-
-//Message API
-Route::get('/message', [MessageController::class, 'index']);
-Route::get('/message/{id}', [MessageController::class, 'show']);
-Route::post('/message', [MessageController::class, 'store']);
-Route::put('/message/{id}', [MessageController::class, 'update']);
-Route::delete('/message/{id}', [MessageController::class, 'destroy']);
