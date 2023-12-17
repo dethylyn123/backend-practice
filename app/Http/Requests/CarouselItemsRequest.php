@@ -23,7 +23,7 @@ class CarouselItemsRequest extends FormRequest
     {
         return [
             'carousel_name' => 'nullable|string|max:255',
-            'image_path' => 'required|image|mimes:jpg,gif,png|max:5120',
+            'image_path' => 'required|image|mimes:jpg,gif,png,bmp|max:5120',
             'description' => 'string|nullable|max:255',
             'user_id' => 'required|integer',
         ];

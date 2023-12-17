@@ -16,8 +16,22 @@ class CarouselItemsController extends Controller
      */
     public function index(Request $request)
     {
-        return CarouselItems::where('user_id', $request->user()->id)
-            ->get();
+        // Show data based on logged user
+        $carouselItems = CarouselItems::where('user_id', $request->user()->id);
+
+        // Cater Search use "keyword"
+        if ($request->keyword) {
+            $carouselItems->where(function ($query) use ($request) {
+                $query->where('carousel_name', 'like', '%' . $request->keyword . '%')
+                    ->orWhere('description', 'like', '%' . $request->keyword . '%');
+            });
+        }
+
+        // Pagination based on number set; You can change the number below
+        return $carouselItems->paginate(3);
+
+        // Show all date; Uncomment if necessary
+        // return CarouselItems::all();
     }
 
     /**
@@ -54,8 +68,18 @@ class CarouselItemsController extends Controller
     {
         $validated = $request->validated();
 
+        // Upload Image to Backend and Store Image Path
+        $validated['image_path'] = $request->file('image_path')->storePublicly('carousel', 'public');
+
+        // Get Info by Id 
         $carouselItem = CarouselItems::findOrFail($id);
 
+        // Delete Previous Image
+        if (!is_null($carouselItem->image_path)) {
+            Storage::disk('public')->delete($carouselItem->image_path);
+        }
+
+        // Update New Info
         $carouselItem->update($validated);
 
         return $carouselItem;
