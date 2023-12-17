@@ -133,8 +133,10 @@ class UserController extends Controller
         return $user;
     }
 
+    //diri ra taman ang gi copy
+
     /**
-     * Display a selection of the resource.gti 
+     * Display a selection of the resource.
      */
     public function selection()
     {
